@@ -1,16 +1,19 @@
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
 
-export class CreateArticlePage {
+export class EditArticlePage {
     constructor(page) {
         this.page = page;
         this.titleField = page.getByPlaceholder('Article Title');
-        this.descriptionField = page.getByPlaceholder("What's this article about?");
-        this.textField = page.getByPlaceholder('Write your article (in markdown)');
+        this.descriptionField = page.getByPlaceholder(`What's this article about?`);
+        this.textBody = page.getByPlaceholder('Write your article (in markdown)');
         this.tagsField = page.getByPlaceholder('Tags');
-        this.publishArticleButton = page.getByRole('button', {
-            name: 'Publish Article',
-        });
-        this.errorMessage = page.getByRole('list').nth(1);
+        this.updateArticleButton = page.getByRole('button', { name: 'Update' });
+    }
+
+    async clickUpdateArticleButton() {
+        await test.step(`Update Article Button`, async () => {
+            await this.updateArticleButton.click()
+        })
     }
 
     async fillTitleField(title) {
@@ -27,7 +30,7 @@ export class CreateArticlePage {
 
     async fillTextField(text) {
         await test.step(`Fill the 'Text' field`, async () => {
-            await this.textField.fill(text);
+            await this.textBody.fill(text);
         });
     }
 
@@ -38,18 +41,6 @@ export class CreateArticlePage {
 
                 await this.page.keyboard.press('Enter');
             }
-        });
-    }
-
-    async clickPublishArticleButton() {
-        await test.step(`Click the 'Publish Article' button`, async () => {
-            await this.publishArticleButton.click();
-        });
-    }
-
-    async assertErrorMessageContainsText(messageText) {
-        await test.step(`Assert the '${messageText}' error is shown`, async () => {
-            await expect(this.errorMessage).toContainText(messageText);
         });
     }
 }

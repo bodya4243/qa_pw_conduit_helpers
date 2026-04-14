@@ -8,7 +8,7 @@ import {
     TITLE_CANNOT_BE_EMPTY,
 } from '../../src/ui/constants/articleErrorMessages';
 import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
-import { checkCreatedArticlePresent } from '../../src/ui/actions/article/checkCreatedArticlePresent';
+import { checkArticleFields } from '../../src/ui/actions/article/CheckArticleUtil';
 
 let createArticlePage;
 
@@ -30,11 +30,11 @@ test('Create an article without description field', async ({ page }) => {
 });
 
 test('Create an article without body field', async ({ page }) => {
-    await createNewArticle({ text: '', tags: Array.from('') }, page, createArticlePage);
+    await createNewArticle({ body: '', tags: Array.from('') }, page, createArticlePage);
     await createArticlePage.assertErrorMessageContainsText(BODY_CANNOT_BE_EMPTY);
 });
 
 test('Create an article without tags field', async ({ page }) => {
     const createdArticleData = await createNewArticle({ tags: Array.from('') }, page, createArticlePage);
-    await checkCreatedArticlePresent(createdArticleData, page)
+    await checkArticleFields(createdArticleData, page)
 });

@@ -10,9 +10,8 @@ export async function createNewArticle(customData = {}, page, createArticlePage)
     await homePage.clickNewArticleLink()
     await createArticlePage.fillTitleField(data.title)
     await createArticlePage.fillDescriptionField(data.description)
-    await createArticlePage.fillTextField(data.text)
+    await createArticlePage.fillTextField(data.body)
     await createArticlePage.fillTagsField(data.tags)
-    await page.keyboard.press('Enter')
 
     await createArticlePage.clickPublishArticleButton()
 
