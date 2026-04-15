@@ -1,14 +1,15 @@
 import { HomePage } from '../../pages/HomePage';
 import { createNewArticle } from './createNewArticle';
-import { CreateArticlePage } from '../../pages/article/CreateArticlePage';
+import { test } from '@playwright/test';
 
 export async function createArticleIfMissing(page) {
-    const homePage = new HomePage(page)
-    const createArticlePage = new CreateArticlePage(page)
+    await test.step("creating new article if missing", async () => {
+        const homePage = new HomePage(page)
 
-    const isArticlePresent = await homePage.assertArticlesPresent()
+        const isArticlePresent = await homePage.isArticlePresent()
 
-    if (!isArticlePresent) {
-        await createNewArticle({}, page, createArticlePage)
-    }
+        if (!isArticlePresent) {
+            await createNewArticle({}, page)
+        }
+    })
 }

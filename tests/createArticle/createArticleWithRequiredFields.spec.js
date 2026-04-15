@@ -1,7 +1,7 @@
 import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
-import { checkArticleFields } from '../../src/ui/actions/article/CheckArticleUtil';
+import { CheckArticleUtil } from '../../src/ui/actions/article/CheckArticleUtil';
 import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
 import { test } from '@playwright/test';
 
@@ -15,5 +15,5 @@ test.beforeEach(async ({page}) => {
 
 test('Create an article with required fields', async ({page}) => {
     const createdArticle = await createNewArticle({}, page, createArticlePage);
-    await checkArticleFields(createdArticle, page)
+    await CheckArticleUtil.checkArticleFields(createdArticle, page)
 });

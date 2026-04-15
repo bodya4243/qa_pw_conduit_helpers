@@ -8,7 +8,7 @@ import {
     TITLE_CANNOT_BE_EMPTY,
 } from '../../src/ui/constants/articleErrorMessages';
 import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
-import { checkArticleFields } from '../../src/ui/actions/article/CheckArticleUtil';
+import { CheckArticleUtil } from '../../src/ui/actions/article/CheckArticleUtil';
 
 let createArticlePage;
 
@@ -20,21 +20,21 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Create an article without required fields', async ({page}) => {
-    await createNewArticle({ title: '', tags: Array.from('') }, page, createArticlePage);
+    await createNewArticle({ title: '', tags: [] }, page, createArticlePage);
     await createArticlePage.assertErrorMessageContainsText(TITLE_CANNOT_BE_EMPTY);
 });
 
 test('Create an article without description field', async ({ page }) => {
-    await createNewArticle({ description: '', tags: Array.from('') }, page, createArticlePage);
+    await createNewArticle({ description: '', tags: [] }, page, createArticlePage);
     await createArticlePage.assertErrorMessageContainsText(DESCRIPTION_CANNOT_BE_EMPTY);
 });
 
 test('Create an article without body field', async ({ page }) => {
-    await createNewArticle({ body: '', tags: Array.from('') }, page, createArticlePage);
+    await createNewArticle({ body: '', tags: [] }, page, createArticlePage);
     await createArticlePage.assertErrorMessageContainsText(BODY_CANNOT_BE_EMPTY);
 });
 
 test('Create an article without tags field', async ({ page }) => {
-    const createdArticleData = await createNewArticle({ tags: Array.from('') }, page, createArticlePage);
-    await checkArticleFields(createdArticleData, page)
+    const createdArticleData = await createNewArticle({ tags: [] }, page, createArticlePage);
+    await CheckArticleUtil.checkErrorMessageVisible(createdArticleData, page)
 });

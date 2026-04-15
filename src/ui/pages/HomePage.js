@@ -3,9 +3,9 @@ import { expect, test } from '@playwright/test';
 export class HomePage {
     constructor(page) {
         this.page = page;
-        this.yourFeedTab = page.getByText('Your Feed')
-        this.newArticleLink = page.getByRole('link', { name: 'New Article' })
-        this.noArticleText = page.getByText('No articles are here... yet.')
+        this.yourFeedTab = page.getByText('Your Feed');
+        this.newArticleLink = page.getByRole('link', { name: 'New Article' });
+        this.articlePreview = page.locator('.article-preview');
     }
 
     async clickNewArticleLink() {
@@ -20,12 +20,10 @@ export class HomePage {
         });
     }
 
-    async assertArticlesPresent() {
-        try {
-            await this.noArticleText.waitFor({ state: 'visible', timeout: 3000 });
-            return false
-        } catch {
-            return true
-        }
+    async isArticlePresent() {
+        return await test.step(`Check if any article is present`, async () => {
+            const count = await this.articlePreview.count();
+            return count > 0;
+        });
     }
 }
